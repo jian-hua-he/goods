@@ -1,19 +1,19 @@
 package circularlinkedlist
 
 // Node represents a single node in a circular linked list.
-type Node[T comparable] struct {
+type Node[T any] struct {
 	Value T
 	Next  *Node[T]
 }
 
 // LinkedList represents a circular singly linked list.
-type LinkedList[T comparable] struct {
+type LinkedList[T any] struct {
 	tail *Node[T]
 	size int
 }
 
 // New creates and returns a new empty LinkedList.
-func New[T comparable]() *LinkedList[T] {
+func New[T any]() *LinkedList[T] {
 	return &LinkedList[T]{}
 }
 
@@ -29,43 +29,6 @@ func (l *LinkedList[T]) Append(value T) {
 		l.tail = node
 	}
 	l.size++
-}
-
-// Delete removes the first occurrence of the value. Returns false if not found.
-func (l *LinkedList[T]) Delete(value T) bool {
-	if l.tail == nil {
-		return false
-	}
-	// Single element
-	if l.size == 1 {
-		if l.tail.Value == value {
-			l.tail = nil
-			l.size--
-			return true
-		}
-		return false
-	}
-	// Check if head (tail.Next) matches
-	head := l.tail.Next
-	if head.Value == value {
-		l.tail.Next = head.Next
-		l.size--
-		return true
-	}
-	// Traverse the rest
-	current := head
-	for current.Next != l.tail.Next {
-		if current.Next.Value == value {
-			if current.Next == l.tail {
-				l.tail = current
-			}
-			current.Next = current.Next.Next
-			l.size--
-			return true
-		}
-		current = current.Next
-	}
-	return false
 }
 
 // Head returns the first node (tail.Next), or nil if the list is empty.

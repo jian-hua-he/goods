@@ -1,21 +1,21 @@
 package doublelinkedlist
 
 // Node represents a single node in a doubly linked list.
-type Node[T comparable] struct {
+type Node[T any] struct {
 	Value T
 	Next  *Node[T]
 	Prev  *Node[T]
 }
 
 // LinkedList represents a doubly linked list.
-type LinkedList[T comparable] struct {
+type LinkedList[T any] struct {
 	head *Node[T]
 	tail *Node[T]
 	size int
 }
 
 // New creates and returns a new empty LinkedList.
-func New[T comparable]() *LinkedList[T] {
+func New[T any]() *LinkedList[T] {
 	return &LinkedList[T]{}
 }
 
@@ -41,29 +41,6 @@ func (l *LinkedList[T]) Prepend(value T) {
 	}
 	l.head = node
 	l.size++
-}
-
-// Delete removes the first occurrence of the value. Returns false if not found.
-func (l *LinkedList[T]) Delete(value T) bool {
-	current := l.head
-	for current != nil {
-		if current.Value == value {
-			if current.Prev != nil {
-				current.Prev.Next = current.Next
-			} else {
-				l.head = current.Next
-			}
-			if current.Next != nil {
-				current.Next.Prev = current.Prev
-			} else {
-				l.tail = current.Prev
-			}
-			l.size--
-			return true
-		}
-		current = current.Next
-	}
-	return false
 }
 
 // Head returns the first node, or nil if the list is empty.

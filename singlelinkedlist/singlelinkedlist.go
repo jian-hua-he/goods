@@ -1,19 +1,19 @@
 package singlelinkedlist
 
 // Node represents a single node in a singly linked list.
-type Node[T comparable] struct {
+type Node[T any] struct {
 	Value T
 	Next  *Node[T]
 }
 
 // LinkedList represents a singly linked list.
-type LinkedList[T comparable] struct {
+type LinkedList[T any] struct {
 	head *Node[T]
 	size int
 }
 
 // New creates and returns a new empty LinkedList.
-func New[T comparable]() *LinkedList[T] {
+func New[T any]() *LinkedList[T] {
 	return &LinkedList[T]{}
 }
 
@@ -30,28 +30,6 @@ func (l *LinkedList[T]) Append(value T) {
 		current.Next = node
 	}
 	l.size++
-}
-
-// Delete removes the first occurrence of the value. Returns false if not found.
-func (l *LinkedList[T]) Delete(value T) bool {
-	if l.head == nil {
-		return false
-	}
-	if l.head.Value == value {
-		l.head = l.head.Next
-		l.size--
-		return true
-	}
-	current := l.head
-	for current.Next != nil {
-		if current.Next.Value == value {
-			current.Next = current.Next.Next
-			l.size--
-			return true
-		}
-		current = current.Next
-	}
-	return false
 }
 
 // Head returns the first node, or nil if the list is empty.
