@@ -5,19 +5,6 @@ import (
 	"testing"
 )
 
-func TestPrepend(t *testing.T) {
-	ll := New[int]()
-	ll.Prepend(3)
-	ll.Prepend(2)
-	ll.Prepend(1)
-
-	expected := []int{1, 2, 3}
-	got := ll.ToSlice()
-	if !reflect.DeepEqual(got, expected) {
-		t.Fatalf("expected %v, got %v", expected, got)
-	}
-}
-
 func TestAppend(t *testing.T) {
 	ll := New[int]()
 	ll.Append(1)

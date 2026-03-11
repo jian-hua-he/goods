@@ -17,13 +17,6 @@ func New[T comparable]() *LinkedList[T] {
 	return &LinkedList[T]{}
 }
 
-// Prepend adds an element to the front of the list.
-func (l *LinkedList[T]) Prepend(value T) {
-	node := &Node[T]{Value: value, Next: l.head}
-	l.head = node
-	l.size++
-}
-
 // Append adds an element to the end of the list.
 func (l *LinkedList[T]) Append(value T) {
 	node := &Node[T]{Value: value}
