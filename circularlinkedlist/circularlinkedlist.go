@@ -1,14 +1,14 @@
-package linkedlist
+package circularlinkedlist
 
-// Node represents a single node in the linked list.
+// Node represents a single node in a circular linked list.
 type Node[T comparable] struct {
 	Value T
 	Next  *Node[T]
 }
 
-// LinkedList represents a singly linked list.
+// LinkedList represents a circular singly linked list.
 type LinkedList[T comparable] struct {
-	head *Node[T]
+	tail *Node[T]
 	size int
 }
 
@@ -17,34 +17,48 @@ func New[T comparable]() *LinkedList[T] {
 	return &LinkedList[T]{}
 }
 
-// Append adds an element to the end of the list.
+// Append adds an element after the tail. The new node becomes the tail.
 func (l *LinkedList[T]) Append(value T) {
 	node := &Node[T]{Value: value}
-	if l.head == nil {
-		l.head = node
+	if l.tail == nil {
+		node.Next = node
+		l.tail = node
 	} else {
-		current := l.head
-		for current.Next != nil {
-			current = current.Next
-		}
-		current.Next = node
+		node.Next = l.tail.Next
+		l.tail.Next = node
+		l.tail = node
 	}
 	l.size++
 }
 
 // Delete removes the first occurrence of the value. Returns false if not found.
 func (l *LinkedList[T]) Delete(value T) bool {
-	if l.head == nil {
+	if l.tail == nil {
 		return false
 	}
-	if l.head.Value == value {
-		l.head = l.head.Next
+	// Single element
+	if l.size == 1 {
+		if l.tail.Value == value {
+			l.tail = nil
+			l.size--
+			return true
+		}
+		return false
+	}
+	// Check if head (tail.Next) matches
+	head := l.tail.Next
+	if head.Value == value {
+		l.tail.Next = head.Next
 		l.size--
 		return true
 	}
-	current := l.head
-	for current.Next != nil {
+	// Traverse the rest
+	current := head
+	for current.Next != l.tail.Next {
 		if current.Next.Value == value {
+			if current.Next == l.tail {
+				l.tail = current
+			}
 			current.Next = current.Next.Next
 			l.size--
 			return true
@@ -54,9 +68,12 @@ func (l *LinkedList[T]) Delete(value T) bool {
 	return false
 }
 
-// Head returns the first node, or nil if the list is empty.
+// Head returns the first node (tail.Next), or nil if the list is empty.
 func (l *LinkedList[T]) Head() *Node[T] {
-	return l.head
+	if l.tail == nil {
+		return nil
+	}
+	return l.tail.Next
 }
 
 // Size returns the number of elements in the list.
@@ -72,8 +89,11 @@ func (l *LinkedList[T]) IsEmpty() bool {
 // ToSlice returns the list elements as a slice.
 func (l *LinkedList[T]) ToSlice() []T {
 	result := make([]T, 0, l.size)
-	current := l.head
-	for current != nil {
+	if l.tail == nil {
+		return result
+	}
+	current := l.tail.Next
+	for i := 0; i < l.size; i++ {
 		result = append(result, current.Value)
 		current = current.Next
 	}

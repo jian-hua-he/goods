@@ -1,4 +1,4 @@
-package linkedlist
+package circularlinkedlist
 
 import (
 	"reflect"
@@ -18,7 +18,26 @@ func TestAppend(t *testing.T) {
 	}
 }
 
-func TestDelete(t *testing.T) {
+func TestCircularity(t *testing.T) {
+	ll := New[int]()
+	ll.Append(1)
+	ll.Append(2)
+	ll.Append(3)
+
+	// Traverse twice around the list
+	node := ll.Head()
+	var values []int
+	for i := 0; i < 6; i++ {
+		values = append(values, node.Value)
+		node = node.Next
+	}
+	expected := []int{1, 2, 3, 1, 2, 3}
+	if !reflect.DeepEqual(values, expected) {
+		t.Fatalf("expected %v, got %v", expected, values)
+	}
+}
+
+func TestDeleteMiddle(t *testing.T) {
 	ll := New[int]()
 	ll.Append(1)
 	ll.Append(2)
@@ -39,12 +58,40 @@ func TestDeleteHead(t *testing.T) {
 	ll := New[int]()
 	ll.Append(1)
 	ll.Append(2)
+	ll.Append(3)
 
 	ll.Delete(1)
-	expected := []int{2}
+	expected := []int{2, 3}
 	got := ll.ToSlice()
 	if !reflect.DeepEqual(got, expected) {
 		t.Fatalf("expected %v, got %v", expected, got)
+	}
+}
+
+func TestDeleteTail(t *testing.T) {
+	ll := New[int]()
+	ll.Append(1)
+	ll.Append(2)
+	ll.Append(3)
+
+	ll.Delete(3)
+	expected := []int{1, 2}
+	got := ll.ToSlice()
+	if !reflect.DeepEqual(got, expected) {
+		t.Fatalf("expected %v, got %v", expected, got)
+	}
+}
+
+func TestDeleteOnly(t *testing.T) {
+	ll := New[int]()
+	ll.Append(1)
+
+	ok := ll.Delete(1)
+	if !ok {
+		t.Fatal("expected delete to return true")
+	}
+	if !ll.IsEmpty() {
+		t.Fatal("expected empty list after deleting only element")
 	}
 }
 
