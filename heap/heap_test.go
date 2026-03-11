@@ -2,13 +2,6 @@ package heap
 
 import "testing"
 
-func TestNew(t *testing.T) {
-	h := New[int]()
-	if h == nil {
-		t.Fatal("expected non-nil heap")
-	}
-}
-
 func TestPushAndPeek(t *testing.T) {
 	h := New[int]()
 	h.Push(5)

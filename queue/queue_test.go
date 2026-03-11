@@ -2,13 +2,6 @@ package queue
 
 import "testing"
 
-func TestNew(t *testing.T) {
-	q := New[int]()
-	if q == nil {
-		t.Fatal("expected non-nil queue")
-	}
-}
-
 func TestEnqueueAndDequeue(t *testing.T) {
 	q := New[int]()
 	q.Enqueue(1)

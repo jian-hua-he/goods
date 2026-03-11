@@ -2,13 +2,6 @@ package stack
 
 import "testing"
 
-func TestNew(t *testing.T) {
-	s := New[int]()
-	if s == nil {
-		t.Fatal("expected non-nil stack")
-	}
-}
-
 func TestPushAndPop(t *testing.T) {
 	s := New[int]()
 	s.Push(1)

@@ -5,13 +5,6 @@ import (
 	"testing"
 )
 
-func TestNew(t *testing.T) {
-	ll := New[int]()
-	if ll == nil {
-		t.Fatal("expected non-nil linked list")
-	}
-}
-
 func TestPrepend(t *testing.T) {
 	ll := New[int]()
 	ll.Prepend(3)

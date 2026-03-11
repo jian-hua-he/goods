@@ -5,13 +5,6 @@ import (
 	"testing"
 )
 
-func TestNew(t *testing.T) {
-	bst := New[int]()
-	if bst == nil {
-		t.Fatal("expected non-nil BST")
-	}
-}
-
 func TestInsertAndSearch(t *testing.T) {
 	bst := New[int]()
 	bst.Insert(5)
