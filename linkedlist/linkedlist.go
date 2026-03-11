@@ -61,29 +61,9 @@ func (l *LinkedList[T]) Delete(value T) bool {
 	return false
 }
 
-// Search returns true if the value exists in the list.
-func (l *LinkedList[T]) Search(value T) bool {
-	current := l.head
-	for current != nil {
-		if current.Value == value {
-			return true
-		}
-		current = current.Next
-	}
-	return false
-}
-
-// Get returns the value at the given index. Returns false if out of bounds.
-func (l *LinkedList[T]) Get(index int) (T, bool) {
-	if index < 0 || index >= l.size {
-		var zero T
-		return zero, false
-	}
-	current := l.head
-	for i := 0; i < index; i++ {
-		current = current.Next
-	}
-	return current.Value, true
+// Head returns the first node, or nil if the list is empty.
+func (l *LinkedList[T]) Head() *Node[T] {
+	return l.head
 }
 
 // Size returns the number of elements in the list.

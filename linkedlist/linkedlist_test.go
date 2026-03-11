@@ -70,36 +70,6 @@ func TestDeleteNotFound(t *testing.T) {
 	}
 }
 
-func TestSearch(t *testing.T) {
-	ll := New[string]()
-	ll.Append("hello")
-	ll.Append("world")
-
-	if !ll.Search("world") {
-		t.Fatal("expected to find 'world'")
-	}
-	if ll.Search("missing") {
-		t.Fatal("expected not to find 'missing'")
-	}
-}
-
-func TestGet(t *testing.T) {
-	ll := New[int]()
-	ll.Append(10)
-	ll.Append(20)
-	ll.Append(30)
-
-	val, ok := ll.Get(1)
-	if !ok || val != 20 {
-		t.Fatalf("expected 20, got %d (ok=%v)", val, ok)
-	}
-
-	_, ok = ll.Get(5)
-	if ok {
-		t.Fatal("expected ok=false for out of bounds")
-	}
-}
-
 func TestSize(t *testing.T) {
 	ll := New[int]()
 	if ll.Size() != 0 {
